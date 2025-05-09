@@ -1,0 +1,19 @@
+# AI Interaction Log
+
+## 2025-05-09 
+Model: Claude-3.7 Sonnet
+
+### Prompt 1:
+```
+please make this a simple android app that has two buttons, one that launches a flutter app and one that launches google photos and that when empty shows "pleas share photo(s)" and when empty shows the uris or filepaths and images of the photos that were shared. please use glide. app in the share sheet shouldbe called "NjwMay9"
+```
+
+### Prompt 2:
+```
+actually, the user will launch google photos manually, just have one textview with instructions to launch google photos and a button to launch flutter module, and a textview to show the file path of thr shared image. dont owry about coil or displaying the image for now plz
+```
+
+### Prompt 3:
+```
+ok, please log my ai prompts from here on out in ai prompts.log fil and what model is used, and make a mini_milestones.md file which shows what has been doen with (done) and what is net with next in numbered bullet points. poitn 1 done is showign text within andeoid and showing launch flutter module button point 2 todo is gettign launch flutter module button to work. point 3 is gettign the flutter module to be the one to receive the file paht.  point 4 is how to get the flutter module to show the images, point 5 is to figure out how to get the flutter module to be hosted by a swift app then point 6 is to figurte out how to get it to show the images in flutter then point 7 is to figure out how to go back to google photos from flutter when nmore needed added. then give a next steps md file on how to get to the next part in themini milestones.
+```
