@@ -1,108 +1,18 @@
-# Next Steps: Setting Up the Flutter Module
+# Next Steps: Configure Flutter Module to Receive File Paths
 
-To progress to milestone #2 (getting the Flutter module button working), follow these steps:
+To progress to milestone #3 (configuring Flutter module to receive file paths), follow these steps:
 
-## 1. Create a Flutter Module
+## 1. Update Flutter Integration Approach
 
-Create a new Flutter module in your project directory:
+Our current approach uses a placeholder NativeFlutterActivity because of compatibility issues with
+the Flutter embedding. To move forward, we need to properly integrate Flutter:
 
-```bash
-cd /Users/neil/AndroidStudioProjects/AndroidHostAppImageMay9
-flutter create --template=module flutter_module
-```
+1. Install Flutter SDK if not already installed
+2. Fix the Flutter module integration using one of these approaches:
+    - Create an actual Flutter app or module that can be properly embedded
+    - Use a standalone Flutter app and implement intent-based communication
 
-## 2. Integrate Flutter Module with Android
+## 2. Implement Proper Flutter Module with Image Display
 
-Follow the Flutter documentation to add the module to your Android app:
-https://docs.flutter.dev/add-to-app/android/project-setup
+Create a Flutter application that can properly receive and display image paths:
 
-You'll need to update:
-
-- Your app's settings.gradle.kts file to include the Flutter module
-- Your app's build.gradle.kts file to add Flutter dependencies
-
-## 3. Update the Launch Flutter Method
-
-Modify MainActivity.kt to use FlutterActivity:
-
-```kotlin
-// Add this import
-import io.flutter.embedding.android.FlutterActivity
-
-// Update the launchFlutterApp method
-private fun launchFlutterApp() {
-    try {
-        val intent = FlutterActivity
-            .withNewEngine()
-            .initialRoute("/")
-            .build(this)
-            
-        // Pass image URIs to Flutter if needed
-        if (sharedImageUris.isNotEmpty()) {
-            val uriStrings = sharedImageUris.map { it.toString() }.toTypedArray()
-            intent.putExtra("IMAGE_URIS", uriStrings)
-        }
-        
-        startActivity(intent)
-    } catch (e: Exception) {
-        Toast.makeText(this, "Could not launch Flutter app: ${e.message}", Toast.LENGTH_SHORT).show()
-    }
-}
-```
-
-## 4. Create a Basic Flutter UI
-
-Update the flutter_module/lib/main.dart file with a simple UI:
-
-```dart
-import 'package:flutter/material.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Module',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Module'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Flutter module is running!',
-              style: TextStyle(fontSize: 20),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
-
-## 5. Test Your Implementation
-
-Build and run your app, then test the "Launch Flutter App" button to verify it correctly launches
-the Flutter module.
-
-## Next Milestone
-
-After completing milestone #2, we'll move on to milestone #3: configuring the Flutter module to
-receive and display the file paths from the Android host app.

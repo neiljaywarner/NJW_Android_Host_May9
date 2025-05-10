@@ -3,6 +3,7 @@ package com.neiljaywarner.androidhostappimagemay9
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,17 +29,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.neiljaywarner.androidhostappimagemay9.ui.theme.AndroidHostAppImageMay9Theme
+import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterActivityLaunchConfigs
 
 class MainActivity : ComponentActivity() {
     private val sharedImageUris = mutableStateListOf<Uri>()
 
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d(TAG, "onCreate called")
         enableEdgeToEdge()
         
         // Handle intent when app is launched via share
         handleIntent(intent)
-        
+
+        Log.d(TAG, "Setting up UI with ${sharedImageUris.size} image URIs")
         setContent {
             AndroidHostAppImageMay9Theme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -58,14 +67,17 @@ class MainActivity : ComponentActivity() {
     }
     
     private fun handleIntent(intent: Intent) {
+        Log.d(TAG, "handleIntent called with action: ${intent.action}, type: ${intent.type}")
         sharedImageUris.clear()
         
         when {
             // Handle single image being sent
             intent.action == Intent.ACTION_SEND && 
             intent.type?.startsWith("image/") == true -> {
+                Log.d(TAG, "Handling single image share")
                 @Suppress("DEPRECATION")
                 (intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))?.let {
+                    Log.d(TAG, "Adding shared image URI: $it")
                     sharedImageUris.add(it)
                 }
             }
@@ -73,25 +85,38 @@ class MainActivity : ComponentActivity() {
             // Handle multiple images being sent
             intent.action == Intent.ACTION_SEND_MULTIPLE && 
             intent.type?.startsWith("image/") == true -> {
+                Log.d(TAG, "Handling multiple image share")
                 @Suppress("DEPRECATION")
                 intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.let { uris ->
+                    Log.d(TAG, "Adding ${uris.size} shared image URIs")
                     sharedImageUris.addAll(uris)
                 }
             }
         }
+        Log.d(TAG, "Total shared image URIs: ${sharedImageUris.size}")
     }
     
     private fun launchFlutterApp() {
         try {
-            // This assumes you have a Flutter module set up 
-            // Replace with actual Flutter activity if available
-            val flutterIntent = packageManager.getLaunchIntentForPackage("com.example.flutter_module")
-            if (flutterIntent != null) {
-                startActivity(flutterIntent)
-            } else {
-                Toast.makeText(this, "Flutter app not found", Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "Attempting to launch Flutter module")
+            // Launch the real Flutter activity
+            val intent = FlutterActivity
+                .withCachedEngine(MyApplication.ENGINE_ID)
+                .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.transparent)
+                .build(this)
+            
+            // Pass image URIs as extras if needed
+            if (sharedImageUris.isNotEmpty()) {
+                Log.d(TAG, "Passing ${sharedImageUris.size} image URIs to Flutter")
+                val uriStrings = sharedImageUris.map { it.toString() }.toTypedArray()
+                intent.putExtra("IMAGE_URIS", uriStrings)
             }
+
+            Log.d(TAG, "Starting Flutter activity")
+            startActivity(intent)
+            Log.d(TAG, "Flutter activity started successfully")
         } catch (e: Exception) {
+            Log.e(TAG, "Error launching Flutter app: ${e.message}", e)
             Toast.makeText(this, "Could not launch Flutter app: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }

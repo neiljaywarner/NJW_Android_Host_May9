@@ -12,12 +12,18 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("${settingsDir}/flutter_module/build/host/outputs/repo") }
+        maven { url = uri("https://storage.googleapis.com/download.flutter.io") }
     }
 }
 
 rootProject.name = "Android Host App Image May9"
 include(":app")
+
+// Include the Flutter module
+val filePath = settingsDir.toString() + "/flutter_module/.android/include_flutter.groovy"
+apply(from = File(filePath))
