@@ -27,6 +27,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -52,6 +53,8 @@ dependencies {
 
     implementation("io.coil-kt:coil:2.5.0")
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    implementation(project(":flutter"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
