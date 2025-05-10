@@ -17,3 +17,55 @@ actually, the user will launch google photos manually, just have one textview wi
 ```
 ok, please log my ai prompts from here on out in ai prompts.log fil and what model is used, and make a mini_milestones.md file which shows what has been doen with (done) and what is net with next in numbered bullet points. poitn 1 done is showign text within andeoid and showing launch flutter module button point 2 todo is gettign launch flutter module button to work. point 3 is gettign the flutter module to be the one to receive the file paht.  point 4 is how to get the flutter module to show the images, point 5 is to figure out how to get the flutter module to be hosted by a swift app then point 6 is to figurte out how to get it to show the images in flutter then point 7 is to figure out how to go back to google photos from flutter when nmore needed added. then give a next steps md file on how to get to the next part in themini milestones.
 ```
+
+### Prompt 4:
+```
+please follow the steps in next_steps
+```
+
+### Prompt 5:
+```
+Will it work now? if the button doesn't launch flutter module please finish that part and update ai prompts with this
+```
+
+### Prompt 6:
+```
+please make a log in logcat not jst a toast so we can tell if there's a peoblem then run and see if it wroks
+```
+
+### Prompt 7:
+```
+close down the emulator please, make sure all the propmtssare showijng up in the log, make sure the flutter activity is in the manifest and build it and let's test
+```
+
+### Prompt 8:
+```
+now it syas 09 19:27:10.989 14537-14537 AndroidRuntime          com...arner.androidhostappimagemay9  E  FATAL EXCEPTION: main (Ask Gemini)
+                                                                                                    Process: com.neiljaywarner.androidhostappimagemay9, PID: 14537
+                                                                                                    java.lang.RuntimeException: Unable to start activity ComponentInfo{com.neiljaywarner.androidhostappimagemay9/io.flutter.embedding.android.FlutterActivity}: java.lang.RuntimeException: java.util.concurrent.ExecutionException: java.lang.UnsatisfiedLinkError: dlopen failed: library "libflutter.so" not found
+```
+
+### Prompt 9:
+```
+please just check https://docs.flutter.dev/add-to-app/android/project-setup
+```
+
+### Prompt 10:
+```
+yesk pleae use actual flutter app not placeholder
+```
+
+### Prompt 11:
+```
+this is easy to fix Build was configured to prefer settings repositories over project repositories but repository 'maven' was added by plugin 'dev.flutter.flutter-gradle-plugin' with the repositoriesMode = RepositoriesMode.PREFER_SETTINGS in settings.grade plz
+```
+
+### Prompt 12:
+```
+ok, flutter module does launch now, please mark that mini milestone as doen and update the next steps accordijngly
+```
+
+### Prompt 13:
+```
+make sure all ai prompts updated including i had to manually explain some stuff
+```
