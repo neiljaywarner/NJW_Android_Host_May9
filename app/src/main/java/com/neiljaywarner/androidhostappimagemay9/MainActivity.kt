@@ -4,8 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +23,6 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,21 +32,30 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.fragment.app.FragmentActivity
 import com.neiljaywarner.androidhostappimagemay9.ui.theme.AndroidHostAppImageMay9Theme
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterActivityLaunchConfigs
+import io.flutter.embedding.android.FlutterFragment
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
     private val sharedImageUris = mutableStateListOf<Uri>()
 
     companion object {
@@ -112,7 +121,7 @@ class MainActivity : ComponentActivity() {
             Log.d(TAG, "Attempting to launch Flutter module")
             // Launch the real Flutter activity
             val intent = FlutterActivity
-                .withCachedEngine(MyApplication.ENGINE_ID)
+                .withCachedEngine(MyApplication.SERVICE_ENGINE_ID)  // Use the service engine with pre-configured route
                 .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.transparent)
                 .build(this)
             
@@ -163,14 +172,14 @@ fun MainApp(
             screen = { FlutterTabScreen(onLaunchFlutter, imageUris) }
         ),
         TabItem(
-            title = "Profile",
-            icon = Icons.Default.Person,
-            screen = { ProfileScreen() }
+            title = "Service",
+            icon = Icons.Default.Create,
+            screen = { ServiceTabScreen(onLaunchFlutter, imageUris) }
         ),
         TabItem(
-            title = "Settings",
-            icon = Icons.Default.Settings,
-            screen = { SettingsScreen() }
+            title = "Profile",
+            icon = Icons.Default.Person,
+            screen = { ProfileFlutterScreen() }
         )
     )
 
@@ -312,7 +321,7 @@ fun FlutterTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
 }
 
 @Composable
-fun ProfileScreen() {
+fun ServiceTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -321,24 +330,112 @@ fun ProfileScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Profile Screen",
-            style = MaterialTheme.typography.headlineMedium
+            text = "Service Request",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
         )
+
+        Text(
+            text = "The below button launches the Flutter module with the initialRoute /service",
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(bottom = 16.dp),
+            textAlign = TextAlign.Center
+        )
+
+        Button(
+            onClick = onLaunchFlutter,
+            modifier = Modifier.fillMaxWidth(0.8f)
+        ) {
+            Text("Request Service (in Flutter)")
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Show shared image paths
+        if (imageUris.isNotEmpty()) {
+            Text(
+                text = "Shared Images (${imageUris.size})",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            LazyColumn {
+                items(imageUris) { uri ->
+                    Text(
+                        text = "File path: $uri",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+            }
+        }
     }
 }
 
 @Composable
-fun SettingsScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = "Settings Screen",
-            style = MaterialTheme.typography.headlineMedium
-        )
+fun ProfileFlutterScreen() {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    // We need to find the FragmentActivity that can host our Flutter fragment
+    val fragmentActivity = remember {
+        when (lifecycleOwner) {
+            is FragmentActivity -> lifecycleOwner as FragmentActivity
+            else -> null
+        }
+    }
+
+    // Create a mutable state to track the Flutter fragment
+    var flutterFragment by remember { mutableStateOf<FlutterFragment?>(null) }
+
+    // Create and use the Flutter fragment
+    LaunchedEffect(Unit) {
+        try {
+            flutterFragment = FlutterFragment
+                .withCachedEngine(MyApplication.PROFILE_ENGINE_ID)
+                .build()
+        } catch (e: Exception) {
+            Log.e("ProfileFlutterScreen", "Error creating Flutter fragment", e)
+        }
+    }
+
+    // The actual Flutter fragment container
+    AndroidView(
+        modifier = Modifier.fillMaxSize(),
+        factory = { ctx ->
+            // Create a FrameLayout to host the Flutter fragment
+            FrameLayout(ctx).apply {
+                id = View.generateViewId()
+            }
+        },
+        update = { view ->
+            // Add the Flutter fragment to the container if it hasn't been added yet
+            try {
+                flutterFragment?.let { fragment ->
+                    fragmentActivity?.let { activity ->
+                        if (!fragment.isAdded) {
+                            activity.supportFragmentManager
+                                .beginTransaction()
+                                .replace(view.id, fragment)
+                                .commit()
+                        }
+                    } ?: run {
+                        Log.e(
+                            "ProfileFlutterScreen",
+                            "No valid FragmentActivity found to host Flutter fragment"
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("ProfileFlutterScreen", "Error adding Flutter fragment", e)
+            }
+        }
+    )
+
+    // Clean up when the composable is disposed
+    DisposableEffect(Unit) {
+        onDispose {
+            // Nothing to clean up here as fragments are managed by the activity
+        }
     }
 }

@@ -1,0 +1,25 @@
+# AI Interaction Log
+
+## 2023-05-09 16:25:00 - Initial Navigation Bar Request
+**User Prompt:**
+```
+change this into an app with a navigation bar with 5 tabs, one of which is the flutter module/fragment
+```
+
+**Response Summary:**
+Implemented a bottom navigation bar with 5 tabs: Home, Favorites, Flutter, Profile, and Settings. The Flutter tab contains a button to launch the Flutter module.
+
+## 2023-05-09 16:35:00 - Extended Navigation and Flutter Integration Request
+**User Prompt:**
+```
+ok, this is great so far, please make a ai prompts file that shows what these prompts and responses are and their timestamps, and please make the profile tab directly contain flutter fragment with link "profile" and a separate flutter engine and the engines are cached upon application launch and in an engine group and the tabthat says "Flutter" is changed to "Service" and the button that says "Launch Flutter App" is changed to "Request Service (in Flutter)" and the text that says "Flutter Module" is changed to something like "The below button launches the flutter module with the initialRoute /service (and please make it do that). In addition please modify the readme.md to reflect the new changes and direction and purpose which is to demonstrate navigation with add2app with navbar as host. Then create a navigation_next_steps.md which discusses checkign back stacks and restoration and going back to android host app with a value and communicating back to the android app something from flutter (for simplicity say the flutter route in the app bar when a flutter fragment is on the screen). Also in the readme put something about "Navbar Approach 1 - Navbar in flutter" and put a placeholder repo link and some pros and cons and put "Navbar approach 2 - Navbar in Android/Swift and bullet poitns for two repos, one ios and one Android and put something like [This repo] for the android one and put some pros and cons to this approach. also make a pros_cons_todos.md with some steps to verify and clarify the pros and cons.
+```
+
+**Response Summary:**
+1. Created AI interaction log file
+2. Modified the app to make Profile tab contain Flutter fragment with "profile" route
+3. Set up Flutter engine group with caching at app start
+4. Renamed "Flutter" tab to "Service" with updated button text
+5. Updated README.md to document the purpose and approach
+6. Created navigation_next_steps.md with information on back stacks
+7. Created pros_cons_todos.md
