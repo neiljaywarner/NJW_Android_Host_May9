@@ -17,15 +17,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.neiljaywarner.androidhostappimagemay9.ui.theme.AndroidHostAppImageMay9Theme
@@ -50,13 +64,10 @@ class MainActivity : ComponentActivity() {
         Log.d(TAG, "Setting up UI with ${sharedImageUris.size} image URIs")
         setContent {
             AndroidHostAppImageMay9Theme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        imageUris = sharedImageUris,
-                        onLaunchFlutter = { launchFlutterApp() }
-                    )
-                }
+                MainApp(
+                    imageUris = sharedImageUris,
+                    onLaunchFlutter = { launchFlutterApp() }
+                )
             }
         }
     }
@@ -122,58 +133,212 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+data class TabItem(
+    val title: String,
+    val icon: ImageVector,
+    val screen: @Composable () -> Unit
+)
+
 @Composable
-fun MainScreen(
-    modifier: Modifier = Modifier,
+fun MainApp(
     imageUris: List<Uri>,
     onLaunchFlutter: () -> Unit
 ) {
-    Surface(
-        modifier = modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            // Instructions
-            Text(
-                text = "Please launch Google Photos manually",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(bottom = 16.dp),
-                textAlign = TextAlign.Center
-            )
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
-            // Flutter button
-            Button(
-                onClick = onLaunchFlutter,
-                modifier = Modifier.fillMaxWidth(0.8f)
-            ) {
-                Text("Launch Flutter App")
-            }
-            
-            Spacer(modifier = Modifier.height(24.dp))
+    val tabs = listOf(
+        TabItem(
+            title = "Home",
+            icon = Icons.Default.Home,
+            screen = { HomeScreen(imageUris) }
+        ),
+        TabItem(
+            title = "Favorites",
+            icon = Icons.Default.Favorite,
+            screen = { FavoritesScreen() }
+        ),
+        TabItem(
+            title = "Flutter",
+            icon = Icons.Default.Create,
+            screen = { FlutterTabScreen(onLaunchFlutter, imageUris) }
+        ),
+        TabItem(
+            title = "Profile",
+            icon = Icons.Default.Person,
+            screen = { ProfileScreen() }
+        ),
+        TabItem(
+            title = "Settings",
+            icon = Icons.Default.Settings,
+            screen = { SettingsScreen() }
+        )
+    )
 
-            // Show shared image paths
-            if (imageUris.isEmpty()) {
-                Text(
-                    text = "Please share photo(s)",
-                    style = MaterialTheme.typography.headlineMedium
-                )
-            } else {
-                LazyColumn {
-                    items(imageUris) { uri ->
-                        Text(
-                            text = "File path: $uri",
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
+    Scaffold(
+        bottomBar = {
+            NavigationBar {
+                tabs.forEachIndexed { index, item ->
+                    NavigationBarItem(
+                        selected = selectedTabIndex == index,
+                        onClick = { selectedTabIndex = index },
+                        icon = { Icon(item.icon, contentDescription = item.title) },
+                        label = { Text(item.title) }
+                    )
                 }
             }
         }
+    ) { innerPadding ->
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            tabs[selectedTabIndex].screen()
+        }
+    }
+}
+
+@Composable
+fun HomeScreen(imageUris: List<Uri>) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Home Screen",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        // Instructions
+        Text(
+            text = "Please launch Google Photos manually to share images",
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(bottom = 16.dp),
+            textAlign = TextAlign.Center
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Show shared image paths
+        if (imageUris.isEmpty()) {
+            Text(
+                text = "No shared photos yet",
+                style = MaterialTheme.typography.titleMedium
+            )
+        } else {
+            Text(
+                text = "Shared Images (${imageUris.size})",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            LazyColumn {
+                items(imageUris) { uri ->
+                    Text(
+                        text = "File path: $uri",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun FavoritesScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Favorites Screen",
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }
+}
+
+@Composable
+fun FlutterTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Flutter Module",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier.padding(bottom = 24.dp)
+        )
+
+        Button(
+            onClick = onLaunchFlutter,
+            modifier = Modifier.fillMaxWidth(0.8f)
+        ) {
+            Text("Launch Flutter App")
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Show shared image paths
+        if (imageUris.isNotEmpty()) {
+            Text(
+                text = "Shared Images (${imageUris.size})",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            LazyColumn {
+                items(imageUris) { uri ->
+                    Text(
+                        text = "File path: $uri",
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Profile Screen",
+            style = MaterialTheme.typography.headlineMedium
+        )
+    }
+}
+
+@Composable
+fun SettingsScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = "Settings Screen",
+            style = MaterialTheme.typography.headlineMedium
+        )
     }
 }
