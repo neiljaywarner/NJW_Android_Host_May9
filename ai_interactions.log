@@ -23,3 +23,40 @@ ok, this is great so far, please make a ai prompts file that shows what these pr
 5. Updated README.md to document the purpose and approach
 6. Created navigation_next_steps.md with information on back stacks
 7. Created pros_cons_todos.md
+
+## 2023-05-10 10:15:00 - Class Cast Exception Fix
+**User Prompt:**
+```
+this didn't actually work, it crashes when you tap profile with Process: com.neiljaywarner.androidhostappimagemay9, PID: 20311
+java.lang.ClassCastException: com.neiljaywarner.androidhostappimagemay9.MainActivity cannot be cast to androidx.fragment.app.FragmentActivity
+at com.neiljaywarner.androidhostappimagemay9.MainActivityKt.ProfileFlutterScreen$lambda$31$lambda$30(MainActivity.kt:401)
+at com.neiljaywarner.androidhostappimagemay9.MainActivityKt.$r8$lambda$XIOaYLj3n_-8gAOjGvD2aQPnq1c(Unknown Source:0)
+at com.neiljaywarner.a please fix
+```
+
+**Response Summary:**
+1. Fixed the ClassCastException by making MainActivity extend FragmentActivity instead of ComponentActivity
+2. Added proper error handling to the Flutter fragment implementation
+3. Fixed the context casting in ProfileFlutterScreen by using LocalLifecycleOwner
+
+## 2023-05-10 10:30:00 - Adding More Tabs
+**User Prompt:**
+```
+will a 6th tab fit or is that too many?
+```
+
+**Response Summary:**
+Provided UX guidance that 3-5 tabs is optimal for a bottom navigation bar, with 6+ tabs becoming problematic for usability.
+
+## 2023-05-10 10:45:00 - Renaming Tabs
+**User Prompt:**
+```
+please make the tabs "My", "Billing", "Dashboard", "Items" and "Featured" with featured using a star icon.  Make sure and put this prompt in the ai interactions file.
+```
+
+**Response Summary:**
+1. Updated the tab names to: "My", "Billing", "Dashboard", "Items", and "Featured" 
+2. Changed the icons to match the new tabs, using a star icon for Featured
+3. Renamed the corresponding screen composables
+4. Updated Flutter fragment to connect to the Items tab
+5. Added the prompt to the AI interactions log

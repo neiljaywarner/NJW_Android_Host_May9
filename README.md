@@ -5,20 +5,21 @@ the "Add-to-App" approach, with a focus on navigation patterns and tab-based int
 
 ## Project Overview
 
-The application showcases a native Android app with a bottom navigation bar hosting 4 tabs,
+The application showcases a native Android app with a bottom navigation bar hosting 5 tabs,
 including two Flutter integrations:
 
-1. **Home Tab**: Native Android screen showing shared images
-2. **Favorites Tab**: Native Android screen (placeholder)
-3. **Service Tab**: Native Android screen with a button to launch Flutter as an Activity
-4. **Profile Tab**: Flutter Fragment embedded directly in the tab
+1. **My Tab**: Native Android screen showing shared images
+2. **Billing Tab**: Native Android screen (placeholder)
+3. **Dashboard Tab**: Native Android screen with a button to launch Flutter as an Activity
+4. **Items Tab**: Flutter Fragment embedded directly in the tab
+5. **Featured Tab**: Native Android screen (placeholder)
 
 ## Flutter Integration Approach
 
 This project demonstrates two main approaches to integrating Flutter within a native app:
 
-1. **Embedded Flutter Fragment**: Directly embedding Flutter UI within a native screen (Profile Tab)
-2. **Flutter Activity**: Launching Flutter as a separate full-screen activity (Service Tab)
+1. **Embedded Flutter Fragment**: Directly embedding Flutter UI within a native screen (Items Tab)
+2. **Flutter Activity**: Launching Flutter as a separate full-screen activity (Dashboard Tab)
 
 The app uses Flutter Engine Groups to efficiently manage multiple Flutter instances with different
 initial routes.

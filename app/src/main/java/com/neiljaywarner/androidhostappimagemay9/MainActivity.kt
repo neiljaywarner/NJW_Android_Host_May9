@@ -19,10 +19,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -157,29 +158,29 @@ fun MainApp(
 
     val tabs = listOf(
         TabItem(
-            title = "Home",
-            icon = Icons.Default.Home,
-            screen = { HomeScreen(imageUris) }
+            title = "My",
+            icon = Icons.Default.AccountCircle,
+            screen = { MyTabScreen(imageUris) }
         ),
         TabItem(
-            title = "Favorites",
-            icon = Icons.Default.Favorite,
+            title = "Billing",
+            icon = Icons.Default.ShoppingCart,
+            screen = { BillingTabScreen() }
+        ),
+        TabItem(
+            title = "Dashboard",
+            icon = Icons.Default.Settings,
+            screen = { DashboardTabScreen(onLaunchFlutter, imageUris) }
+        ),
+        TabItem(
+            title = "Items",
+            icon = Icons.Default.List,
+            screen = { ItemsFlutterScreen() }
+        ),
+        TabItem(
+            title = "Featured",
+            icon = Icons.Default.Star,
             screen = { FavoritesScreen() }
-        ),
-        TabItem(
-            title = "Flutter",
-            icon = Icons.Default.Create,
-            screen = { FlutterTabScreen(onLaunchFlutter, imageUris) }
-        ),
-        TabItem(
-            title = "Service",
-            icon = Icons.Default.Create,
-            screen = { ServiceTabScreen(onLaunchFlutter, imageUris) }
-        ),
-        TabItem(
-            title = "Profile",
-            icon = Icons.Default.Person,
-            screen = { ProfileFlutterScreen() }
         )
     )
 
@@ -209,7 +210,7 @@ fun MainApp(
 }
 
 @Composable
-fun HomeScreen(imageUris: List<Uri>) {
+fun MyTabScreen(imageUris: List<Uri>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -218,7 +219,7 @@ fun HomeScreen(imageUris: List<Uri>) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Home Screen",
+            text = "My Screen",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -269,14 +270,14 @@ fun FavoritesScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Favorites Screen",
+            text = "Featured Content",
             style = MaterialTheme.typography.headlineMedium
         )
     }
 }
 
 @Composable
-fun FlutterTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
+fun BillingTabScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -285,43 +286,14 @@ fun FlutterTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Flutter Module",
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 24.dp)
+            text = "Billing Screen",
+            style = MaterialTheme.typography.headlineMedium
         )
-
-        Button(
-            onClick = onLaunchFlutter,
-            modifier = Modifier.fillMaxWidth(0.8f)
-        ) {
-            Text("Launch Flutter App")
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Show shared image paths
-        if (imageUris.isNotEmpty()) {
-            Text(
-                text = "Shared Images (${imageUris.size})",
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(vertical = 8.dp)
-            )
-
-            LazyColumn {
-                items(imageUris) { uri ->
-                    Text(
-                        text = "File path: $uri",
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(bottom = 8.dp)
-                    )
-                }
-            }
-        }
     }
 }
 
 @Composable
-fun ServiceTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
+fun DashboardTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -330,7 +302,7 @@ fun ServiceTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Service Request",
+            text = "Dashboard Screen",
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 24.dp)
         )
@@ -373,7 +345,7 @@ fun ServiceTabScreen(onLaunchFlutter: () -> Unit, imageUris: List<Uri>) {
 }
 
 @Composable
-fun ProfileFlutterScreen() {
+fun ItemsFlutterScreen() {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -395,7 +367,7 @@ fun ProfileFlutterScreen() {
                 .withCachedEngine(MyApplication.PROFILE_ENGINE_ID)
                 .build()
         } catch (e: Exception) {
-            Log.e("ProfileFlutterScreen", "Error creating Flutter fragment", e)
+            Log.e("ItemsFlutterScreen", "Error creating Flutter fragment", e)
         }
     }
 
@@ -421,13 +393,13 @@ fun ProfileFlutterScreen() {
                         }
                     } ?: run {
                         Log.e(
-                            "ProfileFlutterScreen",
+                            "ItemsFlutterScreen",
                             "No valid FragmentActivity found to host Flutter fragment"
                         )
                     }
                 }
             } catch (e: Exception) {
-                Log.e("ProfileFlutterScreen", "Error adding Flutter fragment", e)
+                Log.e("ItemsFlutterScreen", "Error adding Flutter fragment", e)
             }
         }
     )
