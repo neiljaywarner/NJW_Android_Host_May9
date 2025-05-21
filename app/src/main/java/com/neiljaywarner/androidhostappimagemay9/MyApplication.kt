@@ -33,8 +33,11 @@ class MyApplication : Application() {
         val profileFlutterEngine = engineGroup.createAndRunEngine(profileOptions)
 
         // Create and cache the Service Flutter engine with initial route
+        // Make sure we're using the right route format with leading slash
         val serviceOptions = FlutterEngineGroup.Options(this)
             .setInitialRoute("/service")
+        // Log the route to help with debugging
+        Log.d(TAG, "Creating service engine with route: /service")
         val serviceFlutterEngine = engineGroup.createAndRunEngine(serviceOptions)
 
         // Cache all engines for later use

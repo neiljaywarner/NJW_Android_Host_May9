@@ -18,7 +18,8 @@ description: "A new Flutter module project."
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.7.2
+  sdk: 3.8.0
+  flutter: 3.32.0 # released May 19, 2025
 
 dependencies:
   flutter:

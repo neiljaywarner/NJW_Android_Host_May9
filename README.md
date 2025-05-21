@@ -24,6 +24,24 @@ This project demonstrates two main approaches to integrating Flutter within a na
 The app uses Flutter Engine Groups to efficiently manage multiple Flutter instances with different
 initial routes.
 
+### Flutter Back Stack Navigation
+
+The Flutter module demonstrates proper back stack navigation between screens:
+
+1. **Service Screen**: Initial screen that displays when launched from the Dashboard tab
+   - Contains a button to navigate to Service Screen 2
+   - Shows the current route path
+
+2. **Service Screen 2**: Secondary screen demonstrating back stack navigation
+   - Accessed by tapping the button on the Service Screen
+   - Can be navigated back to Service Screen using the device's back button
+
+3. **Items List and Detail Pages**: Screen displayed in the embedded Flutter fragment (Items tab)
+   - Shows a ListView of items that can be tapped to navigate to a detail page
+   - Detail pages use dynamic routes like `/item/1` based on the selected item
+   - Back stack navigation works as expected (detail page → list view)
+   - Demonstrates proper integration with the native app bar
+
 ## Navigation Approaches
 
 ### Navbar Approach 1 - Navbar in Flutter
@@ -63,6 +81,22 @@ initial routes.
 - More complex communication between Flutter and native code
 - Requires management of multiple Flutter engines
 - More code maintenance across multiple platforms
+
+### Native and Flutter UI Integration
+
+This project shows how to effectively combine native Android UI elements with Flutter:
+
+1. **Native App Bar**: The top app bar is implemented in native Android (Kotlin)
+   - Shows the title of the current tab
+   - Consistently present across all screens
+
+2. **Flutter Content**: The content area uses Flutter for dynamic rendering
+   - Takes advantage of Flutter's UI capabilities within the native framework
+   - Demonstrates proper nesting of UI components across platforms
+
+3. **Tab-specific Back Stacks**: Each tab maintains its own navigation state
+   - Flutter back stack is properly preserved when switching between tabs
+   - Users can navigate back through previously visited screens within each tab
 
 ## Getting Started
 
