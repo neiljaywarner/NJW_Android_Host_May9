@@ -1,0 +1,25 @@
+appId: com.neiljaywarner.androidhostappimagemay9
+---
+# First, make sure the app is in a clean state
+- clearState
+- launchApp
+- takeScreenshot: launch_screen
+
+# Navigate to the Items tab
+- tapOn:
+    text: "Items"
+- waitForAnimationToEnd
+- assertVisible: "Items"
+- takeScreenshot: items_tab
+
+# Scroll down to find Item 2
+- scroll
+- assertVisible: "Item 2"
+- tapOn:
+    text: "Item 2"
+- waitForAnimationToEnd
+
+# Verify Item 2 details
+- assertVisible: "Item 2"
+- assertVisible: "Price: $20.99"
+- takeScreenshot: item_2_details

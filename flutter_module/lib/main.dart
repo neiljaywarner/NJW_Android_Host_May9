@@ -121,6 +121,7 @@ class MyApp extends StatelessWidget {
         '/service': (context) => const ServiceScreen(),
         '/service/screen2': (context) => const ServiceScreen2(),
         '/profile': (context) => const ProfileScreen(),
+        '/help': (context) => const HelpScreen(),
       },
     );
   }
@@ -551,6 +552,144 @@ class ItemDetailScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class HelpScreen extends StatelessWidget {
+  const HelpScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Set the title to "Help" when this screen is shown
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateNativeAppBarTitle("Help");
+    });
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Back button
+              Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      _updateNativeAppBarTitle("Items");
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const Text(
+                    "Help & FAQ",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              // Help content
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildFaqItem(
+                        "How do I view item details?",
+                        "Tap on any item in the list to see its detailed information including price, availability, and description.",
+                      ),
+                      _buildFaqItem(
+                        "Can I navigate between screens?",
+                        "Yes! Use the bottom navigation bar to switch between different sections of the app.",
+                      ),
+                      _buildFaqItem(
+                        "What does the Items tab show?",
+                        "The Items tab displays a list of all available items that you can browse and view details for.",
+                      ),
+                      _buildFaqItem(
+                        "How do I go back to the previous screen?",
+                        "Use the back button in the top-left corner or your device's back button to return to the previous screen.",
+                      ),
+                      _buildFaqItem(
+                        "How does this app work?",
+                        "This app demonstrates Flutter-Android integration using Flutter modules embedded in a native Android application.",
+                      ),
+                      const SizedBox(height: 20),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "About This App",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            const Text(
+                              "This application demonstrates how to integrate Flutter modules within a native Android application. "
+                                  "It showcases multiple Flutter engines working together, deep linking, and communication between Flutter and native code.",
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            const SizedBox(height: 12),
+                            const Text(
+                              "Version: 1.0.0",
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFaqItem(String question, String answer) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            question,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            answer,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade700,
+            ),
+          ),
+        ],
       ),
     );
   }

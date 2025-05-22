@@ -12,6 +12,7 @@ class MyApplication : Application() {
         const val ENGINE_ID = "my_engine_id"
         const val PROFILE_ENGINE_ID = "profile_engine_id"
         const val SERVICE_ENGINE_ID = "service_engine_id"
+        const val ITEMS_ENGINE_ID = "items_engine_id"
     }
 
     override fun onCreate() {
@@ -40,11 +41,18 @@ class MyApplication : Application() {
         Log.d(TAG, "Creating service engine with route: /service")
         val serviceFlutterEngine = engineGroup.createAndRunEngine(serviceOptions)
 
+        // Create and cache the Items Flutter engine with initial route
+        val itemsOptions = FlutterEngineGroup.Options(this)
+            .setInitialRoute("/items")
+        Log.d(TAG, "Creating items engine with route: /items")
+        val itemsFlutterEngine = engineGroup.createAndRunEngine(itemsOptions)
+
         // Cache all engines for later use
         FlutterEngineCache.getInstance().apply {
             put(ENGINE_ID, mainFlutterEngine)
             put(PROFILE_ENGINE_ID, profileFlutterEngine)
             put(SERVICE_ENGINE_ID, serviceFlutterEngine)
+            put(ITEMS_ENGINE_ID, itemsFlutterEngine)
         }
 
         Log.d(TAG, "Flutter engines initialized and cached successfully")

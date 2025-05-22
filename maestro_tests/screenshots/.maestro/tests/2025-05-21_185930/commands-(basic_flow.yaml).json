@@ -1,0 +1,65 @@
+[ {
+  "command" : {
+    "defineVariablesCommand" : {
+      "env" : {
+        "MAESTRO_FILENAME" : "basic_flow"
+      },
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1747871978108,
+    "duration" : 6
+  }
+}, {
+  "command" : {
+    "applyConfigurationCommand" : {
+      "config" : {
+        "appId" : "com.neiljaywarner.androidhostappimagemay9"
+      },
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1747871978115,
+    "duration" : 3
+  }
+}, {
+  "command" : {
+    "takeScreenshotCommand" : {
+      "path" : "initial_screen",
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1747872009424,
+    "duration" : 733
+  }
+}, {
+  "command" : {
+    "clearStateCommand" : {
+      "appId" : "com.neiljaywarner.androidhostappimagemay9",
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1747871978119,
+    "duration" : 15508
+  }
+}, {
+  "command" : {
+    "launchAppCommand" : {
+      "appId" : "com.neiljaywarner.androidhostappimagemay9",
+      "optional" : false
+    }
+  },
+  "metadata" : {
+    "status" : "COMPLETED",
+    "timestamp" : 1747871993629,
+    "duration" : 15794
+  }
+} ]

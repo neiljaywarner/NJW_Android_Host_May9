@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -29,6 +30,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -327,6 +329,7 @@ fun MainApp(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NativeAppBar(title: String) {
+    val context = LocalContext.current
     CenterAlignedTopAppBar(
         title = {
             Text(
@@ -337,7 +340,27 @@ fun NativeAppBar(title: String) {
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+        ),
+        actions = {
+            IconButton(
+                onClick = {
+                    // Launch Flutter help route using the items engine
+                    val intent = FlutterActivity
+                        .withCachedEngine(MyApplication.ITEMS_ENGINE_ID)
+                        .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.transparent)
+                        .build(context)
+                    
+                    // Set the route to help
+                    intent.putExtra("route", "/help")
+                    context.startActivity(intent)
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Info,
+                    contentDescription = "Help"
+                )
+            }
+        }
     )
 }
 
