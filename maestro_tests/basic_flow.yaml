@@ -1,0 +1,5 @@
+appId: com.neiljaywarner.androidhostappimagemay9
+---
+- clearState
+- launchApp
+- takeScreenshot: initial_screen

@@ -1,0 +1,58 @@
+# Back navigation test for verifying hardware back button behavior
+appId: com.neiljaywarner.androidhostappimagemay9
+---
+
+# Launch the app
+- launchApp
+
+# Wait for the app to load
+- waitForAnimationToEnd
+- delay: 3000
+
+# Navigate to Items tab
+- tapOn:
+    text: "Items"
+
+# Wait for the Items list to load
+- waitForAnimationToEnd
+- delay: 1000
+
+# Verify we're in the items list
+- assertVisible:
+    text: "- Tap for details"
+
+# Tap on Item 7
+- scrollUntilVisible:
+    element:
+      text: "Item 7"
+    direction: DOWN
+- tapOn:
+    text: "Item 7"
+
+# Wait for item detail to load
+- waitForAnimationToEnd
+- delay: 1000
+
+# Verify we're in the item detail page
+- assertVisible:
+    text: "Description for item 7"
+- assertVisible:
+    text: "Current route: /item/7"
+
+# Check that app bar title has changed - this depends on the UI framework used
+- assertVisible:
+    text: "Item 7"
+
+# Press hardware back button
+- pressKey: BACK
+- delay: 1000
+
+# Verify we're back in the items list
+- assertVisible:
+    text: "- Tap for details"
+- assertNotVisible:
+    text: "Current route: /item/7"
+
+# Verify app bar title is back to Items
+- assertVisible:
+    text: "Items"

@@ -1,0 +1,46 @@
+18:59:30.913 [ INFO] MAESTRO.logSystemInfo: ---- System Info ----
+18:59:30.915 [ INFO] MAESTRO.logSystemInfo: Maestro Version: 1.40.3
+18:59:30.916 [ INFO] MAESTRO.logSystemInfo: CI: Undefined
+18:59:30.916 [ INFO] MAESTRO.logSystemInfo: OS Name: Mac OS X
+18:59:30.916 [ INFO] MAESTRO.logSystemInfo: OS Version: 15.4.1
+18:59:30.916 [ INFO] MAESTRO.logSystemInfo: Architecture: x86_64
+18:59:30.917 [ INFO] MAESTRO.logSystemInfo: Java Version: 0
+18:59:31.063 [ INFO] MAESTRO.logSystemInfo: Xcode Version: 16.0
+18:59:31.470 [ INFO] MAESTRO.logSystemInfo: Flutter Version: 3.32.0
+18:59:31.858 [ INFO] MAESTRO.logSystemInfo: Flutter Channel: stable
+18:59:31.858 [ INFO] MAESTRO.logSystemInfo: ---------------------
+18:59:32.550 [ INFO] maestro.cli.command.TestCommand.runShardSuite: [shard 1] Selected device 48050DLAQ0091E using port 7001
+18:59:37.695 [ INFO] maestro.orchestra.Orchestra.initAI: [Orchestra] Initializing AI
+18:59:37.695 [ INFO] maestro.Maestro.invoke: Getting device info
+18:59:38.011 [ INFO] maestro.Maestro.invoke: Got device info: DeviceInfo(platform=ANDROID, widthPixels=1080, heightPixels=2424, widthGrid=1080, heightGrid=2424)
+18:59:38.108 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Define variables RUNNING
+18:59:38.111 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Define variables metadata CommandMetadata(numberOfRuns=null, evaluatedCommand=MaestroCommand(defineVariablesCommand=DefineVariablesCommand(env={MAESTRO_FILENAME=basic_flow}, label=null, optional=false)), logMessages=[], insight=Insight(message=, level=NONE), aiReasoning=null)
+18:59:38.114 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Define variables COMPLETED
+18:59:38.115 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Apply configuration RUNNING
+18:59:38.116 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Apply configuration metadata CommandMetadata(numberOfRuns=null, evaluatedCommand=MaestroCommand(applyConfigurationCommand=ApplyConfigurationCommand(config=MaestroConfig(appId=com.neiljaywarner.androidhostappimagemay9, name=null, tags=[], ext={}, onFlowStart=null, onFlowComplete=null), label=null, optional=false)), logMessages=[], insight=Insight(message=, level=NONE), aiReasoning=null)
+18:59:38.118 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Apply configuration COMPLETED
+18:59:38.118 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Clear state of com.neiljaywarner.androidhostappimagemay9 RUNNING
+18:59:38.120 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Clear state of com.neiljaywarner.androidhostappimagemay9 metadata CommandMetadata(numberOfRuns=null, evaluatedCommand=MaestroCommand(clearStateCommand=ClearStateCommand(appId=com.neiljaywarner.androidhostappimagemay9, label=null, optional=false)), logMessages=[], insight=Insight(message=, level=NONE), aiReasoning=null)
+18:59:38.120 [ INFO] maestro.Maestro.clearAppState: Clearing app state com.neiljaywarner.androidhostappimagemay9
+18:59:53.626 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Clear state of com.neiljaywarner.androidhostappimagemay9 COMPLETED
+18:59:53.629 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Launch app "com.neiljaywarner.androidhostappimagemay9" RUNNING
+18:59:53.630 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Launch app "com.neiljaywarner.androidhostappimagemay9" metadata CommandMetadata(numberOfRuns=null, evaluatedCommand=MaestroCommand(launchAppCommand=LaunchAppCommand(appId=com.neiljaywarner.androidhostappimagemay9, clearState=null, clearKeychain=null, stopApp=null, permissions=null, launchArguments=null, label=null, optional=false)), logMessages=[], insight=Insight(message=, level=NONE), aiReasoning=null)
+19:00:09.262 [ INFO] maestro.Maestro.launchApp: Launching app com.neiljaywarner.androidhostappimagemay9
+19:00:09.423 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Launch app "com.neiljaywarner.androidhostappimagemay9" COMPLETED
+19:00:09.424 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Take screenshot initial_screen RUNNING
+19:00:09.425 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Take screenshot initial_screen metadata CommandMetadata(numberOfRuns=null, evaluatedCommand=MaestroCommand(takeScreenshotCommand=TakeScreenshotCommand(path=initial_screen, label=null, optional=false)), logMessages=[], insight=Insight(message=, level=NONE), aiReasoning=null)
+19:00:09.426 [ INFO] maestro.Maestro.takeScreenshot: Taking screenshot to a file: initial_screen.png
+19:00:09.427 [TRACE] maestro.utils.ScreenshotUtils.takeScreenshot: Taking screenshot to output sink
+19:00:10.157 [ INFO] maestro.cli.runner.MaestroCommandRunner.invoke: Take screenshot initial_screen COMPLETED
+19:00:10.705 [ INFO] maestro.drivers.AndroidDriver.close: [Start] close port forwarder
+19:00:15.711 [ INFO] maestro.drivers.AndroidDriver.close: [Done] close port forwarder
+19:00:15.712 [ INFO] maestro.drivers.AndroidDriver.close: [Start] Remove host port from port forwarder map
+19:00:15.712 [ INFO] maestro.drivers.AndroidDriver.close: [Done] Remove host port from port forwarder map
+19:00:15.712 [ INFO] maestro.drivers.AndroidDriver.close: [Start] Remove host port from port to allocation map
+19:00:15.712 [ INFO] maestro.drivers.AndroidDriver.close: [Done] Remove host port from port to allocation map
+19:00:15.713 [ INFO] maestro.drivers.AndroidDriver.close: [Start] Uninstall driver from device
+19:00:16.137 [ INFO] maestro.drivers.AndroidDriver.close: [Done] Uninstall driver from device
+19:00:16.138 [ INFO] maestro.drivers.AndroidDriver.close: [Start] Close instrumentation session
+19:00:16.138 [ INFO] maestro.drivers.AndroidDriver.close: [Done] Close instrumentation session
+19:00:16.138 [ INFO] maestro.drivers.AndroidDriver.close: [Start] Shutdown GRPC channel
+19:00:16.142 [ INFO] maestro.drivers.AndroidDriver.close: [Done] Shutdown GRPC channel

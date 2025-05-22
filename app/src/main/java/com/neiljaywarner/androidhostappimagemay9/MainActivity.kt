@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
@@ -80,6 +81,9 @@ class MainActivity : FragmentActivity() {
         // Handle intent when app is launched via share
         handleIntent(intent)
 
+        // Add back pressed handling
+        addBackPressedCallback()
+
         Log.d(TAG, "Setting up UI with ${sharedImageUris.size} image URIs")
         setContent {
             AndroidHostAppImageMay9Theme {
@@ -130,7 +134,7 @@ class MainActivity : FragmentActivity() {
     private fun launchFlutterApp() {
         try {
             Log.d(TAG, "Attempting to launch Flutter module with service route")
-            setupMethodChannels()
+            setupMethodChannel()
 
             // Launch the real Flutter activity
             val intent = FlutterActivity
@@ -157,15 +161,15 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    private fun setupMethodChannels() {
-        // Get all cached engines
+    private fun setupMethodChannel() {
+        // Set up method channel for getting updates from Flutter
         val engines = listOf(
             MyApplication.ENGINE_ID,
             MyApplication.PROFILE_ENGINE_ID,
             MyApplication.SERVICE_ENGINE_ID
         ).mapNotNull { FlutterEngineCache.getInstance().get(it) }
 
-        // Set up method channel for each engine
+        // For each engine, set up a method channel handler
         engines.forEach { engine ->
             MethodChannel(
                 engine.dartExecutor.binaryMessenger,
@@ -186,6 +190,41 @@ class MainActivity : FragmentActivity() {
                 }
             }
         }
+    }
+
+    private fun addBackPressedCallback() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Log.d(TAG, "Hardware back button pressed, current title: ${currentTitle.value}")
+
+                // If we're on the Items tab and the title is an Item detail page
+                if (currentTitle.value.startsWith("Item ") &&
+                    !currentTitle.value.equals("Items") &&
+                    currentTitle.value.contains("Item")
+                ) {
+
+                    Log.d(TAG, "Back pressed on item details, trying Flutter back navigation")
+
+                    // Try to let the Flutter engine handle the back press
+                    val engine =
+                        FlutterEngineCache.getInstance().get(MyApplication.PROFILE_ENGINE_ID)
+                    if (engine != null) {
+                        // Send a message to Flutter to handle the back navigation
+                        MethodChannel(engine.dartExecutor.binaryMessenger, CHANNEL)
+                            .invokeMethod("handleBackPressed", null)
+
+                        // Set title back to Items
+                        currentTitle.value = "Items"
+                        return
+                    }
+                }
+
+                // In all other cases, let the system handle the back press
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+                isEnabled = true
+            }
+        })
     }
 }
 

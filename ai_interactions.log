@@ -186,3 +186,12 @@ revert tne lst one please
 3. Removed the global navigator key implementation in Flutter
 4. Removed the PopScope implementation
 5. Restored the previous back button behavior
+
+## 2025-05-21 19:00:00 - Adding Maestro Test Setup
+**User Prompt:**
+```
+Run maestro test and make sure it works, make a nice readme for people who have never heard of maestro
+```
+
+**Response Summary:**
+Set up Maestro tests by creating a basic test flow that launches the app and takes a screenshot. Fixed format issues and successfully ran the test. Created a comprehensive README for Maestro that explains what it is, how to install it, write and run tests, common commands, best practices, troubleshooting tips, and resources.
